@@ -6,6 +6,14 @@ import { ConfigModule } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import type { Request, Response } from "express";
+import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+import { ProductMediaModule } from './product-media/product-media.module';
+import { CategoryModule } from './category/category.module';
+import { ProductCategoryModule } from './product-category/product-category.module';
+import { OrderModule } from './order/order.module';
+import { OrderItemModule } from './order-item/order-item.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -28,6 +36,22 @@ import type { Request, Response } from "express";
       autoLoadEntities: true,
       synchronize: true,
     }),
+
+    UsersModule,
+
+    ProductsModule,
+
+    ProductMediaModule,
+
+    CategoryModule,
+
+    ProductCategoryModule,
+
+    OrderModule,
+
+    OrderItemModule,
+
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

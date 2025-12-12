@@ -1,35 +1,34 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ProductCategoryService } from './product-category.service';
-import { ProductCategory } from './entities/product-category.entity';
-import { CreateProductCategoryInput } from './dto/create-product-category.input';
-import { UpdateProductCategoryInput } from './dto/update-product-category.input';
+import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import { ProductCategoryService } from "./product-category.service";
+import { ProductCategoryModel } from "./models/product-category.model";
+import { CreateProductCategoryInput } from "./inputs/create-product-category.input";
 
-@Resolver(() => ProductCategory)
+@Resolver(() => ProductCategoryModel)
 export class ProductCategoryResolver {
-  constructor(private readonly productCategoryService: ProductCategoryService) {}
+  constructor(
+    private readonly productCategoryService: ProductCategoryService
+  ) {}
 
-  @Mutation(() => ProductCategory)
-  createProductCategory(@Args('createProductCategoryInput') createProductCategoryInput: CreateProductCategoryInput) {
+  @Mutation(() => ProductCategoryModel)
+  createProductCategory(
+    @Args("createProductCategoryInput")
+    createProductCategoryInput: CreateProductCategoryInput
+  ) {
     return this.productCategoryService.create(createProductCategoryInput);
   }
 
-  @Query(() => [ProductCategory], { name: 'productCategory' })
+  @Query(() => [ProductCategoryModel], { name: "productCategory" })
   findAll() {
     return this.productCategoryService.findAll();
   }
 
-  @Query(() => ProductCategory, { name: 'productCategory' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => ProductCategoryModel, { name: "productCategory" })
+  findOne(@Args("id", { type: () => Int }) id: number) {
     return this.productCategoryService.findOne(id);
   }
 
-  @Mutation(() => ProductCategory)
-  updateProductCategory(@Args('updateProductCategoryInput') updateProductCategoryInput: UpdateProductCategoryInput) {
-    return this.productCategoryService.update(updateProductCategoryInput.id, updateProductCategoryInput);
-  }
-
-  @Mutation(() => ProductCategory)
-  removeProductCategory(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => ProductCategoryModel)
+  removeProductCategory(@Args("id", { type: () => Int }) id: number) {
     return this.productCategoryService.remove(id);
   }
 }

@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProductMediaInput } from './dto/create-product-media.input';
-import { UpdateProductMediaInput } from './dto/update-product-media.input';
+import { Injectable } from "@nestjs/common";
+import { CreateProductMediaInput } from "./inputs/create-product-media.input";
+import { UpdateProductMediaInput } from "./inputs/update-product-media.input";
 
 @Injectable()
 export class ProductMediaService {
   create(createProductMediaInput: CreateProductMediaInput) {
-    return 'This action adds a new productMedia';
+    return "This action adds a new productMedia";
   }
 
   findAll() {

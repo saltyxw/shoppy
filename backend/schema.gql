@@ -1,0 +1,167 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserModel {
+  id: Int!
+  fullname: String!
+  email: String!
+  role: String!
+  registerDate: DateTime!
+  refreshToken: String
+  expTimeRefreshToken: DateTime
+  emailVerificationToken: String
+  expTimeEmailVerificationToken: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProductMediaModel {
+  id: Int!
+  imageUrl: String!
+  videoUrl: String
+  orderPosition: Int!
+  productId: Int!
+  product: ProductModel!
+}
+
+type CategoryModel {
+  id: Int!
+  name: String!
+  products: [ProductCategoryModel!]
+}
+
+type ProductCategoryModel {
+  productId: Int!
+  categoryId: Int!
+  product: ProductModel!
+  category: CategoryModel!
+}
+
+type ReviewModel {
+  id: Int!
+  text: String!
+  rating: Int!
+  createdAt: DateTime!
+  userId: Int!
+  productId: Int!
+  user: UserModel!
+  product: ProductModel!
+}
+
+type OrderModel {
+  id: Int!
+  createdAt: DateTime!
+  userId: Int!
+  user: UserModel!
+  items: [OrderItemModel!]
+}
+
+type OrderItemModel {
+  id: Int!
+  productId: Int!
+  orderId: Int!
+  quantity: Int!
+  product: ProductModel!
+  order: OrderModel!
+}
+
+type ProductModel {
+  id: Int!
+  name: String!
+  description: String!
+  price: Float!
+  quantity: Int!
+  medias: [ProductMediaModel!]
+  categories: [ProductCategoryModel!]
+  orderItems: [OrderItemModel!]
+  reviews: [ReviewModel!]
+}
+
+type Query {
+  users: [UserModel!]!
+  user(id: Int!): UserModel!
+  products: [ProductModel!]!
+  product(id: Int!): ProductModel!
+  productMedia(id: Int!): ProductMediaModel!
+  category(id: Int!): CategoryModel!
+  productCategory(id: Int!): ProductCategoryModel!
+  order(id: Int!): OrderModel!
+  orderItem(id: Int!): OrderItemModel!
+  reviews: [ReviewModel!]!
+  review(id: Int!): ReviewModel!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserModel!
+  removeUser(id: Int!): UserModel!
+  createProduct(createProductInput: CreateProductInput!): ProductModel!
+  removeProduct(id: Int!): ProductModel!
+  createProductMedia(createProductMediaInput: CreateProductMediaInput!): ProductMediaModel!
+  removeProductMedia(id: Int!): ProductMediaModel!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
+  removeCategory(id: Int!): CategoryModel!
+  createProductCategory(createProductCategoryInput: CreateProductCategoryInput!): ProductCategoryModel!
+  removeProductCategory(id: Int!): ProductCategoryModel!
+  createOrder(createOrderInput: CreateOrderInput!): OrderModel!
+  removeOrder(id: Int!): OrderModel!
+  createOrderItem(createOrderItemInput: CreateOrderItemInput!): OrderItemModel!
+  removeOrderItem(id: Int!): OrderItemModel!
+  createReview(createReviewInput: CreateReviewInput!): ReviewModel!
+  removeReview(id: Int!): ReviewModel!
+}
+
+input CreateUserInput {
+  fullname: String!
+  email: String!
+  password: String!
+  role: UserRoles
+}
+
+enum UserRoles {
+  ADMIN
+  BUYER
+}
+
+input CreateProductInput {
+  name: String!
+  description: String!
+  price: Int!
+  quantity: Int!
+}
+
+input CreateProductMediaInput {
+  imageUrl: String!
+  videoUrl: String
+  orderPosition: Int!
+  productId: Int!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input CreateProductCategoryInput {
+  productId: Int!
+  categoryId: Int!
+}
+
+input CreateOrderInput {
+  userId: Int!
+}
+
+input CreateOrderItemInput {
+  orderId: Int!
+  productId: Int!
+  quantity: Int!
+}
+
+input CreateReviewInput {
+  text: String!
+  rating: Int!
+  userId: Int!
+  productId: Int!
+}

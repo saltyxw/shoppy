@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateOrderInput } from './dto/create-order.input';
-import { UpdateOrderInput } from './dto/update-order.input';
+import { Injectable } from "@nestjs/common";
+import { CreateOrderInput } from "./inputs/create-order.input";
+import { UpdateOrderInput } from "./inputs/update-order.input";
 
 @Injectable()
 export class OrderService {
   create(createOrderInput: CreateOrderInput) {
-    return 'This action adds a new order';
+    return "This action adds a new order";
   }
 
   findAll() {

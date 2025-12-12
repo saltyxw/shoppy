@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
+import { Injectable } from "@nestjs/common";
+import { CreateProductInput } from "./inputs/create-product.input";
+import { UpdateProductInput } from "./inputs/update-product.input";
 
 @Injectable()
 export class ProductsService {
   create(createProductInput: CreateProductInput) {
-    return 'This action adds a new product';
+    return "This action adds a new product";
   }
 
   findAll() {

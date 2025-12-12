@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateReviewInput } from './dto/create-review.input';
-import { UpdateReviewInput } from './dto/update-review.input';
+import { Injectable } from "@nestjs/common";
+import { CreateReviewInput } from "./inputs/create-review.input";
+import { UpdateReviewInput } from "./inputs/update-review.input";
 
 @Injectable()
 export class ReviewsService {
   create(createReviewInput: CreateReviewInput) {
-    return 'This action adds a new review';
+    return "This action adds a new review";
   }
 
   findAll() {

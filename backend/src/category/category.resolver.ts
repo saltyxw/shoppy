@@ -1,35 +1,32 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { CategoryService } from './category.service';
-import { Category } from './entities/category.entity';
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
+import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import { CategoryService } from "./category.service";
+import { CreateCategoryInput } from "./inputs/create-category.input";
+import { UpdateCategoryInput } from "./inputs/update-category.input";
+import { CategoryModel } from "./models/category.model";
 
-@Resolver(() => Category)
+@Resolver(() => CategoryModel)
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @Mutation(() => Category)
-  createCategory(@Args('createCategoryInput') createCategoryInput: CreateCategoryInput) {
+  @Mutation(() => CategoryModel)
+  createCategory(
+    @Args("createCategoryInput") createCategoryInput: CreateCategoryInput
+  ) {
     return this.categoryService.create(createCategoryInput);
   }
 
-  @Query(() => [Category], { name: 'category' })
+  @Query(() => [CategoryModel], { name: "category" })
   findAll() {
     return this.categoryService.findAll();
   }
 
-  @Query(() => Category, { name: 'category' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => CategoryModel, { name: "category" })
+  findOne(@Args("id", { type: () => Int }) id: number) {
     return this.categoryService.findOne(id);
   }
 
-  @Mutation(() => Category)
-  updateCategory(@Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
-    return this.categoryService.update(updateCategoryInput.id, updateCategoryInput);
-  }
-
-  @Mutation(() => Category)
-  removeCategory(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => CategoryModel)
+  removeCategory(@Args("id", { type: () => Int }) id: number) {
     return this.categoryService.remove(id);
   }
 }

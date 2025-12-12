@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProductCategoryInput } from './dto/create-product-category.input';
-import { UpdateProductCategoryInput } from './dto/update-product-category.input';
+import { Injectable } from "@nestjs/common";
+import { CreateProductCategoryInput } from "./inputs/create-product-category.input";
 
 @Injectable()
 export class ProductCategoryService {
   create(createProductCategoryInput: CreateProductCategoryInput) {
-    return 'This action adds a new productCategory';
+    return "This action adds a new productCategory";
   }
 
   findAll() {
@@ -14,10 +13,6 @@ export class ProductCategoryService {
 
   findOne(id: number) {
     return `This action returns a #${id} productCategory`;
-  }
-
-  update(id: number, updateProductCategoryInput: UpdateProductCategoryInput) {
-    return `This action updates a #${id} productCategory`;
   }
 
   remove(id: number) {

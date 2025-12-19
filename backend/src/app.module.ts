@@ -6,21 +6,22 @@ import { ConfigModule } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import type { Request, Response } from "express";
-import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/products.module';
-import { ProductMediaModule } from './product-media/product-media.module';
-import { CategoryModule } from './category/category.module';
-import { ProductCategoryModule } from './product-category/product-category.module';
-import { OrderModule } from './order/order.module';
-import { OrderItemModule } from './order-item/order-item.module';
-import { ReviewsModule } from './reviews/reviews.module';
+import { UsersModule } from "./users/users.module";
+import { ProductsModule } from "./products/products.module";
+import { ProductMediaModule } from "./product-media/product-media.module";
+import { CategoryModule } from "./category/category.module";
+import { ProductCategoryModule } from "./product-category/product-category.module";
+import { OrderModule } from "./order/order.module";
+import { OrderItemModule } from "./order-item/order-item.module";
+import { ReviewsModule } from "./reviews/reviews.module";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "schema.gql",
-      context: ({ req, res }) => ({ req: Request, res: Response }),
+      context: ({ req, res }) => ({ req, res }),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -52,6 +53,8 @@ import { ReviewsModule } from './reviews/reviews.module';
     OrderItemModule,
 
     ReviewsModule,
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

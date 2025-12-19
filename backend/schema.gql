@@ -81,6 +81,10 @@ type ProductModel {
   reviews: [ReviewModel!]
 }
 
+type AuthResponse {
+  access_token: String!
+}
+
 type Query {
   users: [UserModel!]!
   user(id: Int!): UserModel!
@@ -112,18 +116,16 @@ type Mutation {
   removeOrderItem(id: Int!): OrderItemModel!
   createReview(createReviewInput: CreateReviewInput!): ReviewModel!
   removeReview(id: Int!): ReviewModel!
+  register(data: CreateUserInput!): AuthResponse!
+  login(email: String!, password: String!): AuthResponse!
+  updateAccessToken: AuthResponse!
+  logout: Boolean!
 }
 
 input CreateUserInput {
   fullname: String!
   email: String!
   password: String!
-  role: UserRoles
-}
-
-enum UserRoles {
-  ADMIN
-  BUYER
 }
 
 input CreateProductInput {

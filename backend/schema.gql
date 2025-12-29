@@ -65,8 +65,8 @@ type OrderItemModel {
   productId: Int!
   orderId: Int!
   quantity: Int!
-  product: ProductModel!
-  order: OrderModel!
+  product: ProductModel
+  order: OrderModel
 }
 
 type ProductModel {
@@ -91,10 +91,7 @@ type Query {
   productMedia(id: Int!): ProductMediaModel!
   category(id: Int!): CategoryModel!
   productCategory(id: Int!): ProductCategoryModel!
-  order(id: Int!): OrderModel!
   orderItem(id: Int!): OrderItemModel!
-  reviews: [ReviewModel!]!
-  review(id: Int!): ReviewModel!
 }
 
 type Mutation {
@@ -109,12 +106,15 @@ type Mutation {
   removeCategory(id: Int!): CategoryModel!
   createProductCategory(createProductCategoryInput: CreateProductCategoryInput!): ProductCategoryModel!
   removeProductCategory(id: Int!): ProductCategoryModel!
-  createOrder(createOrderInput: CreateOrderInput!): OrderModel!
-  removeOrder(id: Int!): OrderModel!
-  createOrderItem(createOrderItemInput: CreateOrderItemInput!): OrderItemModel!
+  createOrder(createOrderData: CreateOrderInput!): OrderModel!
+  addOrderItem(createOrderItemData: CreateOrderItemInput!): OrderItemModel!
+  updateOrderItem(id: Float!, quantity: Float!): OrderItemModel!
   removeOrderItem(id: Int!): OrderItemModel!
-  createReview(createReviewInput: CreateReviewInput!): ReviewModel!
-  removeReview(id: Int!): ReviewModel!
+  removeOrder(id: Float!): Boolean!
+  createOrderItem(createOrderItemInput: CreateOrderItemInput!): OrderItemModel!
+  createReview(createReviewData: CreateReviewInput!): ReviewModel!
+  updateReview(id: Int!, updateReviewData: UpdateReviewInput!): ReviewModel!
+  deleteReview(id: Int!): Boolean!
   register(data: CreateUserInput!): AuthResponse!
   login(email: String!, password: String!): AuthResponse!
   updateAccessToken: AuthResponse!
@@ -177,4 +177,9 @@ input CreateReviewInput {
   rating: Int!
   userId: Int!
   productId: Int!
+}
+
+input UpdateReviewInput {
+  text: String
+  rating: Int
 }

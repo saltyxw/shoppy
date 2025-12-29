@@ -1,30 +1,38 @@
-import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
-import { OrderService } from "./order.service";
-import { CreateOrderInput } from "./inputs/create-order.input";
-import { UpdateOrderInput } from "./inputs/update-order.input";
+import { Resolver, Mutation, Args } from "@nestjs/graphql";
 import { OrderModel } from "./models/order.model";
+import { OrderItemModel } from "src/order-item/models/order-item.model";
+import { OrdersService } from "./order.service";
+import { CreateOrderInput } from "./inputs/create-order.input";
+import { CreateOrderItemInput } from "src/order-item/inputs/create-order-item.input";
 
-@Resolver(() => OrderModel)
-export class OrderResolver {
-  constructor(private readonly orderService: OrderService) {}
-
-  @Mutation(() => OrderModel)
-  createOrder(@Args("createOrderInput") createOrderInput: CreateOrderInput) {
-    return this.orderService.create(createOrderInput);
-  }
-
-  @Query(() => [OrderModel], { name: "order" })
-  findAll() {
-    return this.orderService.findAll();
-  }
-
-  @Query(() => OrderModel, { name: "order" })
-  findOne(@Args("id", { type: () => Int }) id: number) {
-    return this.orderService.findOne(id);
-  }
+@Resolver()
+export class OrdersResolver {
+  constructor(private readonly ordersService: OrdersService) {}
 
   @Mutation(() => OrderModel)
-  removeOrder(@Args("id", { type: () => Int }) id: number) {
-    return this.orderService.remove(id);
+  createOrder(@Args("createOrderData") createOrderData: CreateOrderInput) {
+    return this.ordersService.createOrder(createOrderData);
+  }
+
+  @Mutation(() => OrderItemModel)
+  addOrderItem(
+    @Args("createOrderItemData") createOrderItemData: CreateOrderItemInput
+  ) {
+    return this.ordersService.addOrderItem(createOrderItemData);
+  }
+
+  @Mutation(() => OrderItemModel)
+  updateOrderItem(@Args("id") id: number, @Args("quantity") quantity: number) {
+    return this.ordersService.updateOrderItem(id, quantity);
+  }
+
+  @Mutation(() => Boolean)
+  removeOrderItem(@Args("id") id: number) {
+    return this.ordersService.removeOrderItem(id);
+  }
+
+  @Mutation(() => Boolean)
+  removeOrder(@Args("id") id: number) {
+    return this.ordersService.removeOrder(id);
   }
 }

@@ -16,9 +16,9 @@ export class OrderItemModel {
   @Field(() => Int)
   quantity: number;
 
-  @Field(() => ProductModel)
-  product: ProductModel;
+  @Field(() => ProductModel, { nullable: true })
+  product?: ProductModel;
 
-  @Field(() => OrderModel)
-  order: OrderModel;
+  @Field(() => OrderModel, { nullable: true })
+  order?: OrderModel;
 }

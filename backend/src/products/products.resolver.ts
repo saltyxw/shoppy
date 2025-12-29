@@ -3,7 +3,14 @@ import { ProductsService } from "./products.service";
 import { ProductModel } from "./models/product.model";
 import { CreateProductInput } from "./inputs/create-product.input";
 import { UpdateProductInput } from "./inputs/update-product.input";
+import { UseGuards } from "@nestjs/common";
+import { AuthGuard } from "src/auth/guards/auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
+import { UserRoles } from "src/entities/user.entity";
+import { Roles } from "src/auth/decorators/roles.decorator";
 
+@UseGuards(AuthGuard, RolesGuard)
+@Roles(UserRoles.ADMIN)
 @Resolver(() => ProductModel)
 export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}

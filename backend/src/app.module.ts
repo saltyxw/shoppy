@@ -11,7 +11,7 @@ import { ProductsModule } from "./products/products.module";
 import { ProductMediaModule } from "./product-media/product-media.module";
 import { CategoryModule } from "./category/category.module";
 import { ProductCategoryModule } from "./product-category/product-category.module";
-import { OrderModule } from "./order/order.module";
+import { OrdersModule } from "./order/order.module";
 import { OrderItemModule } from "./order-item/order-item.module";
 import { ReviewsModule } from "./reviews/reviews.module";
 import { AuthModule } from "./auth/auth.module";
@@ -48,7 +48,7 @@ import { AuthModule } from "./auth/auth.module";
 
     ProductCategoryModule,
 
-    OrderModule,
+    OrdersModule,
 
     OrderItemModule,
 

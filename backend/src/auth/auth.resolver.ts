@@ -66,7 +66,7 @@ export class AuthResolver {
 
     ctx.res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       path: "/",
     });

@@ -10,23 +10,8 @@ export class ProductsResolver {
 
   @Mutation(() => ProductModel)
   createProduct(
-    @Args("createProductInput") createProductInput: CreateProductInput
+    @Args("createProductData") createProductData: CreateProductInput
   ) {
-    return this.productsService.create(createProductInput);
-  }
-
-  @Query(() => [ProductModel], { name: "products" })
-  findAll() {
-    return this.productsService.findAll();
-  }
-
-  @Query(() => ProductModel, { name: "product" })
-  findOne(@Args("id", { type: () => Int }) id: number) {
-    return this.productsService.findOne(id);
-  }
-
-  @Mutation(() => ProductModel)
-  removeProduct(@Args("id", { type: () => Int }) id: number) {
-    return this.productsService.remove(id);
+    return this.productsService.create(createProductData);
   }
 }

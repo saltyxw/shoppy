@@ -1,16 +1,14 @@
 import { InputType, Field, Int } from "@nestjs/graphql";
+import { Min } from "class-validator";
+import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs";
+import { FileUpload } from "graphql-upload/GraphQLUpload.mjs";
 
 @InputType()
 export class CreateProductMediaInput {
-  @Field()
-  imageUrl: string;
+  @Field(() => [GraphQLUpload], { nullable: true })
+  files?: Promise<FileUpload>[];
 
-  @Field({ nullable: true })
-  videoUrl?: string;
-
+  @Min(0)
   @Field(() => Int)
   orderPosition: number;
-
-  @Field(() => Int)
-  productId: number;
 }

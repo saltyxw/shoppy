@@ -88,8 +88,6 @@ type AuthResponse {
 type Query {
   users: [UserModel!]!
   user(id: Int!): UserModel!
-  products: [ProductModel!]!
-  product(id: Int!): ProductModel!
   productMedia(id: Int!): ProductMediaModel!
   category(id: Int!): CategoryModel!
   productCategory(id: Int!): ProductCategoryModel!
@@ -102,8 +100,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserModel!
   removeUser(id: Int!): UserModel!
-  createProduct(createProductInput: CreateProductInput!): ProductModel!
-  removeProduct(id: Int!): ProductModel!
+  createProduct(createProductData: CreateProductInput!): ProductModel!
   createProductMedia(createProductMediaInput: CreateProductMediaInput!): ProductMediaModel!
   removeProductMedia(id: Int!): ProductMediaModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
@@ -133,18 +130,21 @@ input CreateProductInput {
   description: String!
   price: Int!
   quantity: Int!
-}
-
-input CreateProductMediaInput {
-  imageUrl: String!
-  videoUrl: String
-  orderPosition: Int!
-  productId: Int!
+  category: CreateCategoryInput!
+  media: CreateProductMediaInput!
 }
 
 input CreateCategoryInput {
   name: String!
 }
+
+input CreateProductMediaInput {
+  files: [Upload!]
+  orderPosition: Int!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input CreateProductCategoryInput {
   productId: Int!

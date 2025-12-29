@@ -86,8 +86,6 @@ type AuthResponse {
 }
 
 type Query {
-  users: [UserModel!]!
-  user(id: Int!): UserModel!
   productMedia(id: Int!): ProductMediaModel!
   category(id: Int!): CategoryModel!
   productCategory(id: Int!): ProductCategoryModel!
@@ -95,8 +93,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): UserModel!
-  removeUser(id: Int!): UserModel!
+  updateUser(updateUserData: UpdateUserInput!): UserModel!
+  changePassword(currentPassword: String!, newPassword: String!): Boolean!
   createProduct(createProductData: CreateProductInput!): ProductModel!
   updateProduct(id: Float!, updateProductData: UpdateProductInput!): ProductModel!
   deleteProduct(id: Float!): Boolean!
@@ -121,10 +119,10 @@ type Mutation {
   logout: Boolean!
 }
 
-input CreateUserInput {
-  fullname: String!
-  email: String!
-  password: String!
+input UpdateUserInput {
+  fullname: String
+  email: String
+  password: String
 }
 
 input CreateProductInput {
@@ -182,4 +180,10 @@ input CreateReviewInput {
 input UpdateReviewInput {
   text: String
   rating: Int
+}
+
+input CreateUserInput {
+  fullname: String!
+  email: String!
+  password: String!
 }

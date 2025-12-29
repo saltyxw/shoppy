@@ -1,30 +1,32 @@
-import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
 import { UsersService } from "./users.service";
-import { CreateUserInput } from "./inputs/create-user.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
 import { UserModel } from "./models/user.model";
+import { UseGuards } from "@nestjs/common";
+import { AuthGuard } from "src/auth/guards/auth.guard";
+import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 
+@UseGuards(AuthGuard)
 @Resolver(() => UserModel)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => UserModel)
-  createUser(@Args("createUserInput") createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput);
+  updateUser(
+    @Args("updateUserData") updateUserData: UpdateUserInput,
+    @CurrentUser() user: any
+  ) {
+    return this.usersService.updateProfile(user.sub, updateUserData);
   }
 
-  @Query(() => [UserModel], { name: "users" })
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Query(() => UserModel, { name: "user" })
-  findOne(@Args("id", { type: () => Int }) id: number) {
-    return this.usersService.findOne(id);
-  }
-
-  @Mutation(() => UserModel)
-  removeUser(@Args("id", { type: () => Int }) id: number) {
-    return this.usersService.remove(id);
+  @Mutation(() => Boolean)
+  changePassword(
+    @Args("currentPassword") currentPassword: string,
+    @Args("newPassword") newPassword: string,
+    @CurrentUser() user: any
+  ) {
+    return this.usersService
+      .changePassword(user.sub, currentPassword, newPassword)
+      .then(() => true);
   }
 }

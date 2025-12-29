@@ -6,6 +6,13 @@ import { UnauthorizedException, UseGuards } from "@nestjs/common";
 import { Public } from "./guards/auth.guard";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AuthGuard } from "./guards/auth.guard";
+import type { UserPayload } from "./types/user.payload";
+import { Request, Response } from "express";
+
+export interface GqlContext {
+  req: Request;
+  res: Response;
+}
 
 @Resolver()
 export class AuthResolver {
@@ -13,7 +20,10 @@ export class AuthResolver {
 
   @Public()
   @Mutation(() => AuthResponse)
-  async register(@Args("data") data: CreateUserInput, @Context() ctx: any) {
+  async register(
+    @Args("data") data: CreateUserInput,
+    @Context() ctx: GqlContext
+  ) {
     const { access_token, refresh_token } = await this.authService.signUp(data);
 
     ctx.res.cookie("refreshToken", refresh_token, {
@@ -50,8 +60,9 @@ export class AuthResolver {
   }
 
   @Mutation(() => AuthResponse)
-  async updateAccessToken(@Context() ctx: any) {
-    const refreshToken = ctx.req.cookies?.refreshToken;
+  async updateAccessToken(@Context() ctx: GqlContext) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const refreshToken: string = ctx.req.cookies?.refreshToken;
     if (!refreshToken) {
       throw new UnauthorizedException(" no cookie provided");
     }
@@ -61,7 +72,7 @@ export class AuthResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => Boolean)
-  async logout(@CurrentUser() user: any, @Context() ctx: any) {
+  async logout(@CurrentUser() user: UserPayload, @Context() ctx: GqlContext) {
     await this.authService.clearRefreshToken(user.sub);
 
     ctx.res.clearCookie("refreshToken", {

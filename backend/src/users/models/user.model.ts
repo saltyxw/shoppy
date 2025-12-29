@@ -1,4 +1,3 @@
-// src/users/models/user.model.ts
 import { ObjectType, Field, Int } from "@nestjs/graphql";
 import { UserRoles } from "src/entities/user.entity";
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DataSource, Repository } from "typeorm";
@@ -69,7 +70,13 @@ export class ProductsService {
             const upload = cloudinary.uploader.upload_stream(
               { folder: "shoppy-products", resource_type: "auto" },
               (error, result) => {
-                if (error || !result) return reject(error);
+                if (error || !result) {
+                  return reject(
+                    error instanceof Error
+                      ? error
+                      : new Error(String(error?.message || error))
+                  );
+                }
                 resolve({
                   url: result.secure_url,
                   resourceType: result.resource_type,
@@ -154,7 +161,13 @@ export class ProductsService {
             const upload = cloudinary.uploader.upload_stream(
               { folder: "shoppy-products", resource_type: "auto" },
               (error, result) => {
-                if (error || !result) return reject(error);
+                if (error || !result) {
+                  return reject(
+                    error instanceof Error
+                      ? error
+                      : new Error(String(error?.message || error))
+                  );
+                }
                 resolve({
                   url: result.secure_url,
                   resourceType: result.resource_type,

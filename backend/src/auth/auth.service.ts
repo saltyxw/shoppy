@@ -9,6 +9,7 @@ import { User } from "src/entities/user.entity";
 import { JwtService } from "@nestjs/jwt";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
 import * as bcrypt from "bcrypt";
+import type { UserPayload } from "./types/user.payload";
 
 @Injectable()
 export class AuthService {
@@ -81,9 +82,12 @@ export class AuthService {
 
   async refreshAccessToken(refreshToken: string) {
     try {
-      const payload = await this.jwtService.verifyAsync(refreshToken, {
-        secret: process.env.REFRESH_SECRET,
-      });
+      const payload = await this.jwtService.verifyAsync<UserPayload>(
+        refreshToken,
+        {
+          secret: process.env.REFRESH_SECRET,
+        }
+      );
 
       const user = await this.userRepo.findOne({
         where: { id: payload.sub },

@@ -8,7 +8,8 @@ import {
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import { Reflector } from "@nestjs/core";
-import { GqlExecutionContext } from "@nestjs/graphql";
+import { GqlExecutionContext, GqlContextType } from "@nestjs/graphql";
+import { UserPayload } from "../types/user.payload";
 
 export const IS_PUBLIC_KEY = "isPublic";
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
@@ -28,8 +29,14 @@ export class AuthGuard implements CanActivate {
 
     if (isPublic) return true;
 
-    const ctx = GqlExecutionContext.create(context);
-    const request: Request = ctx.getContext().req;
+    let request: Request;
+
+    if (context.getType<GqlContextType>() === "graphql") {
+      const ctx = GqlExecutionContext.create(context);
+      request = ctx.getContext<{ req: Request }>().req;
+    } else {
+      request = context.switchToHttp().getRequest<Request>();
+    }
 
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -37,7 +44,7 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync<UserPayload>(token, {
         secret: process.env.ACCESS_SECRET,
       });
 

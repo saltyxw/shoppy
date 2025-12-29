@@ -101,6 +101,8 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): UserModel!
   removeUser(id: Int!): UserModel!
   createProduct(createProductData: CreateProductInput!): ProductModel!
+  updateProduct(id: Float!, updateProductData: UpdateProductInput!): ProductModel!
+  deleteProduct(id: Float!): Boolean!
   createProductMedia(createProductMediaInput: CreateProductMediaInput!): ProductMediaModel!
   removeProductMedia(id: Int!): ProductMediaModel!
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryModel!
@@ -145,6 +147,15 @@ input CreateProductMediaInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+input UpdateProductInput {
+  name: String
+  description: String
+  price: Int
+  quantity: Int
+  category: CreateCategoryInput
+  media: CreateProductMediaInput
+}
 
 input CreateProductCategoryInput {
   productId: Int!

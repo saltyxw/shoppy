@@ -7,5 +7,5 @@ export class CreateProductDto {
   price: number;
   quantity: number;
   category: CreateCategoryDto;
-  media: CreateProductMediaDto;
+  media?: CreateProductMediaDto;
 }

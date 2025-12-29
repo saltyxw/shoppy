@@ -1,5 +1,6 @@
 export class CreateProductMediaDto {
-  imageUrl: string;
+  imageUrl?: string;
   videoUrl?: string;
-  orderPosition: number;
+  orderPosition?: number;
+  files?: any[];
 }

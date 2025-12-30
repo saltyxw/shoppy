@@ -81,15 +81,36 @@ type ProductModel {
   reviews: [ReviewModel!]
 }
 
+type PaginatedProducts {
+  items: [ProductModel!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
 type AuthResponse {
   access_token: String!
 }
 
 type Query {
+  products(query: GetProductsInput): PaginatedProducts!
+  product(id: Int!): ProductModel!
+  searchProducts(name: String!, page: Int = 1, limit: Int = 10): PaginatedProducts!
   productMedia(id: Int!): ProductMediaModel!
   category(id: Int!): CategoryModel!
   productCategory(id: Int!): ProductCategoryModel!
   orderItem(id: Int!): OrderItemModel!
+}
+
+input GetProductsInput {
+  page: Int = 1
+  limit: Int = 10
+  sortBy: String
+  categoryId: Int
+  minPrice: Int
+  maxPrice: Int
+  inStock: Boolean
 }
 
 type Mutation {

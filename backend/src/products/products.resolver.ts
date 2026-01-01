@@ -10,13 +10,14 @@ import { UserRoles } from "src/entities/user.entity";
 import { Roles } from "src/auth/decorators/roles.decorator";
 import { PaginatedProducts } from "./inputs/get-output-products.input";
 import { GetProductsInput } from "./inputs/get-product.input";
+import { Public } from "src/auth/guards/auth.guard";
 
-@UseGuards(AuthGuard, RolesGuard)
-@Roles(UserRoles.ADMIN)
 @Resolver(() => ProductModel)
 export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRoles.ADMIN)
   @Mutation(() => ProductModel)
   createProduct(
     @Args("createProductData") createProductData: CreateProductInput
@@ -24,6 +25,8 @@ export class ProductsResolver {
     return this.productsService.create(createProductData);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRoles.ADMIN)
   @Mutation(() => ProductModel)
   updateProduct(
     @Args("id") id: number,
@@ -32,11 +35,14 @@ export class ProductsResolver {
     return this.productsService.updateProduct(id, updateProductData);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRoles.ADMIN)
   @Mutation(() => Boolean)
   deleteProduct(@Args("id") id: number) {
     return this.productsService.deleteProduct(id);
   }
 
+  @Public()
   @Query(() => PaginatedProducts)
   async products(
     @Args("query", { nullable: true }) query: GetProductsInput
@@ -44,6 +50,7 @@ export class ProductsResolver {
     return this.productsService.getProducts(query || {});
   }
 
+  @Public()
   @Query(() => ProductModel)
   async product(
     @Args("id", { type: () => Int }) id: number
@@ -51,6 +58,7 @@ export class ProductsResolver {
     return this.productsService.getProductById(id);
   }
 
+  @Public()
   @Query(() => PaginatedProducts)
   async searchProducts(
     @Args("name") name: string,
